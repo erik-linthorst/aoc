@@ -10,37 +10,38 @@ namespace AdventOfCode.Y2024.Day21;
 public class Scratch {
     public char[,] InputChars;
 
-    public void Run(string input) {
+    public void Run(string input)
+    {
         InputChars = ParseTo2DCharArray(input);
 
-        for (int y = 0; y < InputChars.GetLength(0); y++) {
-            
+        for (int y = 0; y < InputChars.GetLength(0); y++)
+        {
             var np = new NumPad();
-            
-            for (int x = 0; x < InputChars.GetLength(1); x++) {
-                
+
+            for (int x = 0; x < InputChars.GetLength(1); x++)
+            {
                 var inputChar = InputChars[y, x];
                 np.Press(inputChar);
-            }
-            
+            }			
+
             var charsNp = np.History.SelectMany(h => h.Item2).ToArray();
             var kp1 = new KeyPad();
             foreach (var ch in charsNp)
             {
                 kp1.Press(ch);
-            }
-
-            //var s1 = new string(kp1.History.SelectMany(h => h.Item2).ToArray());
+            }						
+			
             var charsKp1 = kp1.History.SelectMany(h => h.Item2).ToArray();
-            
+            var s1 = new string(charsKp1);
+
             var kp2 = new KeyPad();
             foreach (var ch in charsKp1)
             {
                 kp2.Press(ch);
-            }
-
-            var s2 = new string(kp2.History.SelectMany(h => h.Item2).ToArray());
+            }			
+			
             var charsKp2 = kp2.History.SelectMany(h => h.Item2).ToArray();
+            var s2 = new string(charsKp2);
             Console.WriteLine(s2);
         }
     }
@@ -112,6 +113,7 @@ public abstract class Pad {
         var targetLocation = targetButton.Loc;
         var path = FindShortestPath(CurrentLocation, targetLocation);
         var directions = ConvertPathToDirections(path);
+        directions.Add('A');
 
         History.Add((c, directions));
         CurrentButton = c;
