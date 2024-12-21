@@ -35,18 +35,18 @@ public class Scratch {
 }
 
 public class NumPad {
-    public Dictionary<char, PadButton> Buttons { get; } = new() {
+    private Dictionary<char, PadButton> Buttons { get; } = new() {
         { '7', new PadButton(new Vector2(0, 0), '7') },
-        { '8', new PadButton(new Vector2(0, 1), '8') },
-        { '9', new PadButton(new Vector2(0, 2), '9') },
-        { '4', new PadButton(new Vector2(1, 0), '4') },
+        { '8', new PadButton(new Vector2(1, 0), '8') },
+        { '9', new PadButton(new Vector2(2, 0), '9') },
+        { '4', new PadButton(new Vector2(0, 1), '4') },
         { '5', new PadButton(new Vector2(1, 1), '5') },
-        { '6', new PadButton(new Vector2(1, 2), '6') },
-        { '1', new PadButton(new Vector2(2, 0), '1') },
-        { '2', new PadButton(new Vector2(2, 1), '2') },
+        { '6', new PadButton(new Vector2(2, 1), '6') },
+        { '1', new PadButton(new Vector2(0, 2), '1') },
+        { '2', new PadButton(new Vector2(1, 2), '2') },
         { '3', new PadButton(new Vector2(2, 2), '3') },
-        { '0', new PadButton(new Vector2(3, 1), '0') },
-        { 'A', new PadButton(new Vector2(3, 2), 'A') }
+        { '0', new PadButton(new Vector2(1, 3), '0') },
+        { 'A', new PadButton(new Vector2(2, 3), 'A') }
     };
 
     public char CurrentButton { get; set; } = 'A';
