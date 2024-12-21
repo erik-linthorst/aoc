@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+
 // ReSharper disable UseCollectionExpression
 
 namespace AdventOfCode.Y2024.Day21;
@@ -34,8 +35,8 @@ public class Scratch {
     }
 }
 
-public class NumPad {
-    private Dictionary<char, PadButton> Buttons { get; } = new() {
+public class NumPad : Pad {
+    public override Dictionary<char, PadButton> Buttons { get; } = new() {
         { '7', new PadButton(new Vector2(0, 0), '7') },
         { '8', new PadButton(new Vector2(1, 0), '8') },
         { '9', new PadButton(new Vector2(2, 0), '9') },
@@ -49,17 +50,33 @@ public class NumPad {
         { 'A', new PadButton(new Vector2(2, 3), 'A') }
     };
 
+    public override Vector2 CurrentLocation { get; set; } = new(3, 2);
+}
+
+public class KeyPad : Pad {
+    public override Dictionary<char, PadButton> Buttons { get; } = new() {
+        { '^', new PadButton(new Vector2(1, 0), '^') },
+        { 'A', new PadButton(new Vector2(2, 0), 'A') },
+        { '<', new PadButton(new Vector2(0, 1), '<') },
+        { 'v', new PadButton(new Vector2(1, 1), 'v') },
+        { '>', new PadButton(new Vector2(2, 1), '>') }
+    };
+
+    public override Vector2 CurrentLocation { get; set; } = new(2, 0);
+}
+
+public abstract class Pad {
+    public abstract Dictionary<char, PadButton> Buttons { get; }
     public char CurrentButton { get; set; } = 'A';
-    public Vector2 CurrentLocation { get; set; } = new(3, 2);
+    public abstract Vector2 CurrentLocation { get; set; }
     public List<(char, List<char>)> History { get; } = new();
-    
+
     public void Press(char c) {
-        
         // calc the shortest path in vectors using a BFS  from CurrentLocation
         // then convert this path into a list of chars using ^ for up, v for down, < for left, > for right
         // and make this path ()
         // then add c with the path chars to History and set CurrentButton to c
-        
+
         var targetButton = Buttons[c];
         var targetLocation = targetButton.Loc;
         var path = FindShortestPath(CurrentLocation, targetLocation);
@@ -108,9 +125,6 @@ public class NumPad {
 
         return directions;
     }
-}
-
-public class KeyPad {
 }
 
 public record PadButton(Vector2 Loc, char C) {
