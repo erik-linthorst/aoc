@@ -18,4 +18,20 @@ class Solution : Solver {
     public object PartTwo(string input) {
         return 0;
     }
+    
+    public char[,] ParseTo2DCharArray(string input)
+    {
+        var lines = input.Split(Environment.NewLine);
+        var result = new char[lines.Length, lines[0].Length];
+
+        for (int y = 0; y < lines.Length; y++)
+        {
+            for (int x = 0; x < lines[y].Length; x++)
+            {
+                result[y, x] = lines[y][x];
+            }
+        }
+
+        return result;
+    }
 }
