@@ -12,6 +12,37 @@ public class Scratch {
 
     public void Run(string input) {
         InputChars = ParseTo2DCharArray(input);
+
+        for (int y = 0; y < InputChars.GetLength(0); y++) {
+            
+            var np = new NumPad();
+            
+            for (int x = 0; x < InputChars.GetLength(1); x++) {
+                
+                var inputChar = InputChars[y, x];
+                np.Press(inputChar);
+            }
+            
+            var charsNp = np.History.SelectMany(h => h.Item2).ToArray();
+            var kp1 = new KeyPad();
+            foreach (var ch in charsNp)
+            {
+                kp1.Press(ch);
+            }
+
+            //var s1 = new string(kp1.History.SelectMany(h => h.Item2).ToArray());
+            var charsKp1 = kp1.History.SelectMany(h => h.Item2).ToArray();
+            
+            var kp2 = new KeyPad();
+            foreach (var ch in charsKp1)
+            {
+                kp2.Press(ch);
+            }
+
+            var s2 = new string(kp2.History.SelectMany(h => h.Item2).ToArray());
+            var charsKp2 = kp2.History.SelectMany(h => h.Item2).ToArray();
+            Console.WriteLine(s2);
+        }
     }
 
     private static char[,] ParseTo2DCharArray(string input) {
@@ -50,7 +81,7 @@ public class NumPad : Pad {
         { 'A', new PadButton(new Vector2(2, 3), 'A') }
     };
 
-    public override Vector2 CurrentLocation { get; set; } = new(3, 2);
+    public override Vector2 CurrentLocation { get; set; } = new(2, 3);
 }
 
 public class KeyPad : Pad {
