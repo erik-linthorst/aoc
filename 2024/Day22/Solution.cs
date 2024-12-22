@@ -10,13 +10,31 @@ using System;
 [ProblemName("Monkey Market")]
 class Solution : Solver {
     public object PartOne(string input) {
-        
         var secrets = input.Split(Environment.NewLine).Select(int.Parse).ToArray();
         return secrets.Select(i => SecretNumbers(i, 2000).Last()).Sum();
     }
 
     public object PartTwo(string input) {
+        var nums =
+            SecretNumbers2(123, 10)
+                .Zip(SecretNumbers(123, 10), (prev, current) => new { prev, current, dif = Dif(current, prev) });
+
+        nums.SkipLast(1);
+
         return 0;
+    }
+
+    public long Dif(long current, long prev) {
+        var curPrice = current % 10;
+        var prevPrice = prev % 10;
+        return curPrice - prevPrice;
+    }
+
+    public IEnumerable<long> SecretNumbers2(long sn, int times) {
+        for (int i = 0; i < times; i++) {
+            yield return sn;
+            sn = NextSecretNumber(sn);
+        }
     }
 
     public IEnumerable<long> SecretNumbers(long sn, int times) {
