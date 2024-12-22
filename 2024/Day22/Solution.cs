@@ -1,21 +1,42 @@
+// ReSharper disable MemberCanBePrivate.Global
+
+using System.Collections.Generic;
+
 namespace AdventOfCode.Y2024.Day22;
 
 using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Text;
-using System.Numerics;
 
 [ProblemName("Monkey Market")]
 class Solution : Solver {
-
     public object PartOne(string input) {
         return 0;
     }
 
     public object PartTwo(string input) {
         return 0;
+    }
+
+    public IEnumerable<long> SecretNumbers(long sn, int times) {
+        for (int i = 0; i < times; i++) {
+            sn = NextSecretNumber(sn);
+            yield return sn;
+        }
+    }
+
+    public long NextSecretNumber(long secret)
+    {
+        //# Step 1: Multiply by 64, mix, prune
+        secret ^= (secret * 64) % 16777216;
+        secret %= 16777216;
+
+        //# Step 2: Divide by 32, round down, mix, prune
+        secret ^= (secret / 32) % 16777216;
+        secret %= 16777216;
+
+        //# Step 3: Multiply by 2048, mix, prune
+        secret ^= (secret * 2048) % 16777216;
+        secret %= 16777216;
+
+        return secret;
     }
 }
